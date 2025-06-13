@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agenda de Salas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+    }
+    .voltar {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0077cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .voltar:hover {
+      background-color: #005fa3;
+    }
+    select {
+      margin-right: 10px;
+      padding: 5px;
+    }
+    button.excluir {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.excluir:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+  <h1>Agenda de Salas</h1>
+
+  <div>
+    <label for="filtroSetor">Setor:</label>
+    <select id="filtroSetor">
+      <option value="">Todos</option>
+      <option value="RH">RH</option>
+      <option value="TI">TI</option>
+      <option value="Financeiro">Financeiro</option>
+      <option value="Marketing">Marketing</option>
+    </select>
+
+    <label for="filtroSala">Sala:</label>
+    <select id="filtroSala">
+      <option value="">Todas</option>
+      <option value="101">101</option>
+      <option value="102">102</option>
+      <option value="103">103</option>
+      <option value="104">104</option>
+      <option value="201">201</option>
+      <option value="202">202</option>
+      <option value="203">203</option>
+      <option value="204">204</option>
+      <option value="301">301</option>
+      <option value="302">302</option>
+      <option value="303">303</option>
+      <option value="304">304</option>
+    </select>
+
+    <button onclick="carregarAgendamentos()">Filtrar</button>
+  </div>
+
+  <table id="tabela-agendamentos">
+    <thead>
+      <tr>
+        <th>Usuário</th>
+        <th>Setor</th>
+        <th>Sala</th>
+        <th>Início</th>
+        <th>Fim</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Linhas preenchidas pelo JS -->
+    </tbody>
+  </table>
+
+  <a href="agendamento.html" class="voltar">← Voltar</a>
+
+  <script>
+    try {
+      const user = JSON.parse(sessionStorage.getItem('usuario'));
+      if (!user) throw new Error("Não autenticado");
+      const isSupervisor = user?.tipoUsuario === 'supervisor';
+
+      function carregarAgendamentos() {
+        const setor = document.getElementById('filtroSetor').value;
+        const sala = document.getElementById('filtroSala').value;
+        const tbody = document.querySelector('#tabela-agendamentos tbody');
+        tbody.innerHTML = '';
+
+        fetch('/agendamentos')
+          .then(res => res.json())
+          .then(agendamentos => {
+            const filtrados = agendamentos.filter(ag => {
+              return (!setor || ag.setor === setor) && (!sala || ag.sala == sala);
+            });
+
+            filtrados.forEach((ag, index) => {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td>${ag.usuario}</td>
+                <td>${ag.setor}</td>
+                <td>${ag.sala}</td>
+                <td>${formatarData(ag.inicio)}</td>
+                <td>${formatarData(ag.fim)}</td>
+                <td>
+                  ${isSupervisor && ag.setor === user.setor
+                    ? `<button class="excluir" onclick="excluirAgendamento(${index})">Excluir</button>`
+                    : ''}
+                </td>
+              `;
+              tbody.appendChild(tr);
+            });
+          });
+      }
+
+      function excluirAgendamento(index) {
+        if (!confirm('Tem certeza que deseja excluir este agendamento?')) return;
+
+        const setor = user?.setor;
+
+        fetch(`/excluir/${index}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ setor })
+        })
+        .then(res => res.json())
+        .then(resposta => {
+          if (resposta.success) {
+            alert('Agendamento excluído com sucesso!');
+            carregarAgendamentos();
+          } else {
+            alert(resposta.message || 'Erro ao excluir agendamento');
+          }
+        });
+      }
+
+      function formatarData(dataStr) {
+        const data = new Date(dataStr);
+        return data.toLocaleString('pt-BR');
+      }
+
+      carregarAgendamentos();
+    } catch (err) {
+      window.location.href = '/login.html';
+    }
+  </script>
+</body>
+</html>

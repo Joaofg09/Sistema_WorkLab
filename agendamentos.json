@@ -1,0 +1,23 @@
+[
+  {
+    "usuario": "jana",
+    "setor": "Marketing",
+    "sala": "201",
+    "inicio": "2025-04-25T15:27",
+    "fim": "2025-04-25T17:29"
+  },
+  {
+    "usuario": "joao",
+    "setor": "TI",
+    "sala": "101",
+    "inicio": "2025-04-14T17:33",
+    "fim": "2025-04-14T18:34"
+  },
+  {
+    "usuario": "jana",
+    "setor": "Marketing",
+    "sala": "201",
+    "inicio": "2025-04-15T15:37",
+    "fim": "2025-04-15T16:25"
+  }
+]
