@@ -1,0 +1,44 @@
+[
+  {
+    "usuario": "Joao",
+    "email": "joao@supervisor.com",
+    "senha": "123",
+    "setor": "TI",
+    "tipoUsuario": "supervisor"
+  },
+  {
+    "usuario": "Luan",
+    "email": "luan@supervisor.com",
+    "senha": "456",
+    "setor": "TI",
+    "tipoUsuario": "supervisor"
+  },
+  {
+    "usuario": "Maria",
+    "email": "maria@funcionario.com",
+    "senha": "abc",
+    "setor": "RH",
+    "tipoUsuario": "funcionario"
+  },
+  {
+    "usuario": "Jana",
+    "email": "jana@supervisor.com",
+    "senha": "456",
+    "setor": "Marketing",
+    "tipoUsuario": "supervisor"
+  },
+  {
+    "usuario": "Paulo",
+    "email": "paulo@funcionario.com",
+    "senha": "xyz",
+    "setor": "Financeiro",
+    "tipoUsuario": "funcionario"
+  },
+  {
+    "usuario": "Desconhecido",
+    "email": "Desconhecido@funcionario.com",
+    "senha": "xyz",
+    "setor": "Financeiro",
+    "tipoUsuario": "funcionario"
+  }
+]

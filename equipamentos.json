@@ -1,0 +1,27 @@
+[
+  {
+    "nome": "Notebook",
+    "descricao": "Notebook Thinkpad",
+    "quantidade": 20
+  },
+  {
+    "nome": "Notebook",
+    "descricao": "Notebook Lenovo",
+    "quantidade": 20
+  },
+  {
+    "nome": "Mouse",
+    "descricao": "Mouse sem fio",
+    "quantidade": 20
+  },
+  {
+    "nome": "Monitor",
+    "descricao": "Monitor AOC",
+    "quantidade": 10
+  },
+  {
+    "nome": "Monitor",
+    "descricao": "Monitor Samsung",
+    "quantidade": 10
+  }
+]

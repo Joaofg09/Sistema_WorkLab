@@ -107,6 +107,7 @@
           setor: data.usuario.setor,
           tipoUsuario: data.usuario.tipoUsuario
         };
+        console.log(usuarioCompleto);
         sessionStorage.setItem('usuario', JSON.stringify(usuarioCompleto));
         window.location.href = '/agendamento.html';
       } else {

@@ -7,18 +7,42 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-const usuarios = [
+/* const usuarios = [
   { usuario: 'joao', senha: '123', setor: 'TI', tipoUsuario: 'supervisor' },
   { usuario: 'maria', senha: 'abc', setor: 'RH', tipoUsuario: 'funcionario' },
   { usuario: 'jana', senha: '456', setor: 'Marketing', tipoUsuario: 'supervisor' },
   { usuario: 'paulo', senha: 'xyz', setor: 'Financeiro', tipoUsuario: 'funcionario' }
-];
+];*/
 
+/* const equipamentos = [
+  {
+    nome: 'Notebook',
+    descricao: 'Notebook Thinkpad',
+    quantidade: 20
+  },
+  {
+    nome: 'Projetor',
+    descricao: 'Mini Projetor portátil',
+    quantidade: 5
+  },
+  {
+    nome: 'Teclado',
+    descricao: 'Teclado Multilaser',
+    quantidade: 20
+  },
+]
+*/
 const caminhoArquivo = path.join(__dirname, 'agendamentos.json');
+const caminhoEquipamentos = path.join(__dirname, 'equipamentos.json');
+const caminhoUsuarios = path.join(__dirname, 'usuarios.json');
 
 // Rota de login
 app.post('/login', (req, res) => {
   const { usuario, senha } = req.body;
+  
+  const dados = fs.readFileSync(caminhoUsuarios, {encoding: 'utf8'});
+  let usuarios = JSON.parse(dados)
+
   const user = usuarios.find(u => u.usuario === usuario && u.senha === senha);
 
   if (user) {
@@ -117,6 +141,66 @@ app.delete('/excluir/:index', (req, res) => {
     res.status(500).json({ success: false, message: 'Erro ao excluir agendamento' });
   }
 });
+
+// Rota para os equipamentos
+
+app.post('/equipamento', (req, res) => {
+  const {nome, descricao , quantidade} = req.body;
+
+  let equipamentos = [];
+
+  try {
+    const dados = fs.readFileSync(caminhoEquipamentos);
+    equipamentos = JSON.parse(dados);
+  } catch (err) {
+    console.error('Erro ao ler equipamentos:', err);
+  }
+  
+  equipamentos.push({nome, descricao, quantidade});
+  
+  try {
+    fs.writeFileSync(caminhoEquipamentos, JSON.stringify(equipamentos, null, 2));
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ success: false, message: 'Erro ao adicionar equipamento.' });
+  }  
+
+})
+
+app.get('/equipamento', (req, res) => {
+    try {
+    const dados = fs.readFileSync(caminhoEquipamentos);
+    const equipamentos = JSON.parse(dados);
+    res.json(equipamentos);
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao carregar equipamentos.' });
+  }
+})
+
+
+// Rota para os usuarios
+
+app.post('/usuario', (req, res) => {
+  const {usuario, email , senha, setor, tipoUsuario} = req.body;
+  
+  let usuarios = [];
+
+  try {
+    const dados = fs.readFileSync(caminhoUsuarios);
+    usuarios = JSON.parse(dados);
+  } catch (err) {
+    console.error('Erro ao ler usuarios:', err);
+  }
+  
+  usuarios.push({usuario, email, senha, setor, tipoUsuario});
+  
+  try {
+    fs.writeFileSync(caminhoUsuarios, JSON.stringify(usuarios, null, 2));
+    res.json({ success: true });
+  } catch (err) {
+    res.json({ success: false, message: 'Erro ao criar usuarios.' });
+  }  
+})
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
