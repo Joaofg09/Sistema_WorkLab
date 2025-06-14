@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservar Equipamento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #000;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    select, input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      background-color: #003668;
+      color: white;
+      font-weight: bold;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #00264d;
+    }
+
+    #msg-reserva {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reservar Equipamento</h1>
+
+    <form id="form-reserva">
+      <label>Equipamento:</label>
+      <p id="equipamento-nome" style="margin: 0 0 15px 0; font-weight: normal;"></p>
+
+      <label for="inicio">Data de Início:</label>
+      <input type="date" id="inicio" required>
+
+      <label for="fim">Data de Fim:</label>
+      <input type="date" id="fim" required>
+
+      <label for="destinatario">Reservar para (usuário):</label>
+      <select id="destinatario" required>
+        <option value="">Selecione um funcionário</option>
+      </select>
+
+      <button type="submit">Fazer Reserva</button>
+      <div id="msg-reserva"></div>
+    </form>
+  </div>
+
+  <script>
+    const equipamento = JSON.parse(sessionStorage.getItem('equipamentoSelecionado'));
+    const equipamentoId = equipamento.id;
+    const equipamentoNome = equipamento.nome;
+    console.log(equipamento)
+    console.log(equipamentoId)
+    console.log(equipamentoNome)
+
+    if (!equipamento) {
+      alert('Nenhum equipamento selecionado!');
+      location.href = 'reserva-equipamentos.html';
+    }
+
+    const usuario = JSON.parse(sessionStorage.getItem('usuario'));
+    
+    document.getElementById('equipamento-nome').innerText = equipamentoNome;
+
+    async function carregarDestinatarios() {
+      try {
+        const res = await fetch('/usuarios');
+        const usuarios = await res.json();
+
+        const select = document.getElementById('destinatario');
+        const mesmoSetor = usuarios.filter(u =>
+          u.setor === usuario.setor && u.tipoUsuario !== 'supervisor'
+        );
+        mesmoSetor.forEach(u => {
+          const option = document.createElement('option');
+          option.value = u.usuario;
+          option.textContent = u.usuario;
+          select.appendChild(option);
+        });
+      } catch (err) {
+        console.error('Erro ao carregar destinatários:', err);
+      }
+    }
+
+    carregarDestinatarios();
+
+    document.getElementById('form-reserva').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const reserva = {
+        equipamentoId: equipamentoId,
+        equipamento: equipamentoNome,
+        inicio: document.getElementById('inicio').value,
+        fim: document.getElementById('fim').value,
+        supervisor: usuario.usuario,
+        setor: usuario.setor,
+        destinatario: document.getElementById('destinatario').value
+      };
+
+      try {
+        const res = await fetch('/reservar-equipamento', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(reserva)
+        });
+
+        const data = await res.json();
+        const msgDiv = document.getElementById('msg-reserva');
+
+        if (data.success) {
+          msgDiv.style.color = 'green';
+          msgDiv.innerText = '✅ Reserva realizada com sucesso.';
+          e.target.reset();
+        } else {
+          msgDiv.style.color = 'red';
+          msgDiv.innerText = '❌ ' + (data.message || 'Erro ao fazer reserva.');
+        }
+      } catch (err) {
+        console.error('Erro ao enviar reserva:', err);
+      }
+    });
+  </script>
+</body>
+</html>

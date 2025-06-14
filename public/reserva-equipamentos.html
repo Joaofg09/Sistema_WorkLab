@@ -59,7 +59,7 @@
   </style>
 </head>
 <body>
-  <h1>Reserva de Equipamentos</h1>
+  <h1>Equipamentos</h1>
 
   <div id="lista-equipamentos"></div>
 
@@ -70,34 +70,35 @@
     <input type="number" id="quantidade" placeholder="Quantidade" min="1" required />
     <button type="submit">Salvar Equipamento</button>
     <div id="msg"></div>
-  </form>
-
-  <form id="form-reserva" style="margin-top: 40px;">
-    <h2>Reservar Equipamento</h2>
-
-    <label for="equipamento">Equipamento:</label>
-    <select id="equipamento" required></select>
-
-    <label for="inicio">Data de Início:</label>
-    <input type="date" id="inicio" required />
-
-    <label for="fim">Data de Fim:</label>
-    <input type="date" id="fim" required />
-
-    <label for="destinatario">Reservar para (usuário):</label>
-    <select id="destinatario" required>
-      <option value="">Selecione um funcionário</option>
-    </select>
-
-    <button type="submit">Fazer Reserva</button>
-    <div id="msg-reserva"></div>
-  </form>
+    <!--
+    </form>
+    <form id="form-reserva" style="margin-top: 40px;">
+      <h2>Reservar Equipamento</h2>
+      
+      <label for="equipamento">Equipamento:</label>
+      <select id="equipamento" required></select>
+      
+      <label for="inicio">Data de Início:</label>
+      <input type="date" id="inicio" required />
+      
+      <label for="fim">Data de Fim:</label>
+      <input type="date" id="fim" required />
+      
+      <label for="destinatario">Reservar para (usuário):</label>
+      <select id="destinatario" required>
+        <option value="">Selecione um funcionário</option>
+      </select>
+      
+      <button type="submit">Fazer Reserva</button>
+      <div id="msg-reserva"></div>
+    </form>
+    -->
 
   <script>
     const usuario = JSON.parse(sessionStorage.getItem('usuario'));
     if (!usuario || usuario.tipoUsuario !== 'supervisor') {
       document.getElementById('form-equipamento').style.display = 'none';
-      document.getElementById('form-reserva').style.display = 'none';
+      //document.getElementById('form-reserva').style.display = 'none';
       const aviso = document.createElement('p');
       aviso.style.color = 'red';
       aviso.innerText = '⚠️ Apenas supervisores podem cadastrar e reservar equipamentos.';
@@ -120,11 +121,22 @@
             <p>${eq.descricao}</p>
             <p><strong>Quantidade:</strong> ${eq.quantidade}</p>
           `;
+
+          const botao = document.createElement('button');
+          botao.textContent = 'Reservar';
+          botao.addEventListener('click', () => irParaReserva(eq));
+
+          div.appendChild(botao);
           container.appendChild(div);
         });
       } catch (err) {
         console.error('Erro ao carregar equipamentos:', err);
       }
+    }
+
+    function irParaReserva(equipamentoObj) {
+      sessionStorage.setItem('equipamentoSelecionado', JSON.stringify(equipamentoObj));
+      window.location.href = 'reserva.html';
     }
 
     async function carregarEquipamentosParaReserva() {
@@ -145,33 +157,34 @@
         console.error('Erro ao carregar equipamentos:', err);
       }
     }
-
+    /*
     async function carregarDestinatariosDoMesmoSetor() {
       try {
         const res = await fetch('/usuarios');
         const usuarios = await res.json();
-
+        
         const select = document.getElementById('destinatario');
         select.innerHTML = '<option value="">Selecione um funcionário</option>';
-
+        
         const mesmoSetor = usuarios.filter(u =>
-          u.setor === usuario.setor && u.tipoUsuario !== 'supervisor'
-        );
-
-        mesmoSetor.forEach(u => {
-          const option = document.createElement('option');
-          option.value = u.usuario;
-          option.textContent = u.usuario;
-          select.appendChild(option);
-        });
-      } catch (err) {
-        console.error('Erro ao carregar usuários:', err);
-      }
+        u.setor === usuario.setor && u.tipoUsuario !== 'supervisor'
+      );
+      
+      mesmoSetor.forEach(u => {
+        const option = document.createElement('option');
+        option.value = u.usuario;
+        option.textContent = u.usuario;
+        select.appendChild(option);
+      });
+    } catch (err) {
+      console.error('Erro ao carregar usuários:', err);
     }
-
+  }
+  */
+  
     document.getElementById('form-equipamento').addEventListener('submit', async (e) => {
       e.preventDefault();
-
+      
       const nome = document.getElementById('nome').value;
       const descricao = document.getElementById('descricao').value;
       const quantidade = parseInt(document.getElementById('quantidade').value);
@@ -199,15 +212,15 @@
         console.error('Erro ao enviar equipamento:', err);
       }
     });
-
+    /*
     document.getElementById('form-reserva').addEventListener('submit', async (e) => {
       e.preventDefault();
-
+      
       const nomeEquipamento = document.getElementById('equipamento').value;
       const inicio = document.getElementById('inicio').value;
       const fim = document.getElementById('fim').value;
       const destinatario = document.getElementById('destinatario').value;
-
+      
       const reserva = {
         equipamento: nomeEquipamento,
         inicio,
@@ -216,36 +229,37 @@
         setor: usuario.setor,
         destinatario
       };
-
+      
       console.log(reserva)
-
+      
       try {
         const res = await fetch('/reservar-equipamento', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(reserva)
         });
-
+        
         const data = await res.json();
         const msgDiv = document.getElementById('msg-reserva');
-
+        
         if (data.success) {
           msgDiv.style.color = 'green';
           msgDiv.innerText = '✅ Reserva realizada com sucesso.';
           e.target.reset();
         } else {
           msgDiv.style.color = 'red';
-          msgDiv.innerText = '❌ ' + (data.message || 'Erro ao fazer reserva.');
-        }
-      } catch (err) {
-        console.error('Erro ao reservar equipamento:', err);
+        msgDiv.innerText = '❌ ' + (data.message || 'Erro ao fazer reserva.');
       }
-    });
-
+    } catch (err) {
+      console.error('Erro ao reservar equipamento:', err);
+    }
+  });
+  
+  */
     if (usuario && usuario.tipoUsuario === 'supervisor') {
       carregarEquipamentos();
       carregarEquipamentosParaReserva();
-      carregarDestinatariosDoMesmoSetor();
+      //carregarDestinatariosDoMesmoSetor();
     }
   </script>
 </body>

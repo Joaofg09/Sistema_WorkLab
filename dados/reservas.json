@@ -14,5 +14,108 @@
     "equipamento": "Filtro de linha",
     "inicio": "2025-06-25",
     "fim": "2025-07-23"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Notebook",
+    "inicio": "2025-06-14",
+    "fim": "2025-06-15"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "teste",
+    "inicio": "2025-06-20",
+    "fim": "2025-06-21"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Mouse",
+    "inicio": "2025-06-20",
+    "fim": "2025-06-20"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Notebook",
+    "inicio": "2025-06-20",
+    "fim": "2025-06-28"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "inicio": "2025-06-13",
+    "fim": "2025-06-14"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "teste",
+    "inicio": "2025-06-14",
+    "fim": "2025-06-14"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "teste2",
+    "inicio": "2025-06-14",
+    "fim": "2025-06-21"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "teste2",
+    "inicio": "2025-06-27",
+    "fim": "2025-06-28"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "teste2",
+    "inicio": "2025-06-05",
+    "fim": "2025-06-06"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Mouse",
+    "inicio": "2025-06-13",
+    "fim": "2025-06-21"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Teclado",
+    "inicio": "2025-06-05",
+    "fim": "2025-06-13"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Teclado",
+    "inicio": "2025-06-14",
+    "fim": "2025-06-21"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Teclado",
+    "inicio": "2025-06-28",
+    "fim": "2025-06-30"
   }
 ]

@@ -1,7 +1,10 @@
+const { log } = require('console');
 const express = require('express');
-const app = express();
 const fs = require('fs');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+
+const app = express();
 const PORT = 3000;
 
 app.use(express.json());
@@ -14,11 +17,11 @@ const caminhoReservas = path.join(__dirname, './dados/reservas.json');
 
 // Rota de login
 app.post('/login', (req, res) => {
-  const { usuario, senha } = req.body;
+  const { email, senha } = req.body;
   const dados = fs.readFileSync(caminhoUsuarios, { encoding: 'utf8' });
   const usuarios = JSON.parse(dados);
-  const user = usuarios.find(u => u.usuario === usuario && u.senha === senha);
-
+  const user = usuarios.find(u => u.email === email && u.senha === senha);
+  console.log(email, senha)
   if (user) {
     res.json({
       success: true,
@@ -123,8 +126,8 @@ app.post('/equipamento', (req, res) => {
   } catch (err) {
     console.error('Erro ao ler equipamentos:', err);
   }
-
-  equipamentos.push({ nome, descricao, quantidade });
+  id = uuidv4();
+  equipamentos.push({ id, nome, descricao, quantidade });
 
   try {
     fs.writeFileSync(caminhoEquipamentos, JSON.stringify(equipamentos, null, 2));
@@ -178,9 +181,28 @@ app.get('/usuarios', (req, res) => {
   }
 });
 
+// Reduz a quantidade de equipamento quando uma reserva é feita
+function reduzirEquipamento(id) {
+  try {
+    const equipamentos = JSON.parse(fs.readFileSync(caminhoEquipamentos, 'utf8'));
+    const index = equipamentos.findIndex(eq => eq.id === id);
+
+    if (index === -1) return false;
+
+    equipamentos[index].quantidade -= 1;
+    if (equipamentos[index].quantidade < 0) equipamentos[index].quantidade = 0;
+
+    fs.writeFileSync(caminhoEquipamentos, JSON.stringify(equipamentos, null, 2));
+    return true;
+  } catch (err) {
+    console.error('Erro ao reduzir quantidade:', err);
+    return false;
+  } 
+}
+
 // Rota para reservar equipamento
 app.post('/reservar-equipamento', (req, res) => {
-  const { destinatario, supervisor, setor, equipamento, inicio, fim } = req.body;
+  const { equipamentoId, destinatario, supervisor, setor, equipamento, inicio, fim } = req.body;
 
   let reservas = [];
   try {
@@ -202,6 +224,11 @@ app.post('/reservar-equipamento', (req, res) => {
   }
 
   reservas.push({ destinatario, supervisor , setor, equipamento, inicio, fim });
+  const reduziu = reduzirEquipamento(equipamentoId);
+
+  if (!reduziu) {
+    return res.json({ success: false, message: 'Erro ao reduzir quantidade do equipamento.' });
+  }
 
   try {
     fs.writeFileSync(caminhoReservas, JSON.stringify(reservas, null, 2));
