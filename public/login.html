@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Login - WorkHub Corp</title>
   <style>
+    /* (mantém seu CSS original) */
     * {
       margin: 0;
       padding: 0;
@@ -39,7 +40,8 @@
     }
 
     input[type="text"],
-    input[type="password"] {
+    input[type="password"],
+    select {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -79,6 +81,14 @@
     <form id="loginForm">
       <input type="text" id="usuario" placeholder="Usuário" required />
       <input type="password" id="senha" placeholder="Senha" required />
+      
+      <!-- NOVO: Escolha de destino -->
+      <select id="destino" required>
+        <option value="" disabled selected>Escolha o destino</option>
+        <option value="agendamento">Agendamento de Salas</option>
+        <option value="equipamentos">Reserva de Equipamentos</option>
+      </select>
+
       <button type="submit">Entrar</button>
     </form>
     <div id="msg"></div>
@@ -87,6 +97,13 @@
   <script>
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const destino = document.getElementById('destino').value;
+
+      if (!destino) {
+        document.getElementById('msg').innerText = '❌ Selecione o destino antes de continuar.';
+        return;
+      }
 
       const dados = {
         usuario: document.getElementById('usuario').value,
@@ -107,9 +124,14 @@
           setor: data.usuario.setor,
           tipoUsuario: data.usuario.tipoUsuario
         };
-        console.log(usuarioCompleto);
         sessionStorage.setItem('usuario', JSON.stringify(usuarioCompleto));
-        window.location.href = '/agendamento.html';
+
+        // Redirecionamento com base na escolha
+        if (destino === 'agendamento') {
+          window.location.href = '/agendamento.html';
+        } else if (destino === 'equipamentos') {
+          window.location.href = '/reserva-equipamentos.html';
+        }
       } else {
         document.getElementById('msg').innerText = '❌ ' + (data.message || 'Login inválido');
       }

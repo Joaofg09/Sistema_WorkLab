@@ -7,42 +7,16 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-/* const usuarios = [
-  { usuario: 'joao', senha: '123', setor: 'TI', tipoUsuario: 'supervisor' },
-  { usuario: 'maria', senha: 'abc', setor: 'RH', tipoUsuario: 'funcionario' },
-  { usuario: 'jana', senha: '456', setor: 'Marketing', tipoUsuario: 'supervisor' },
-  { usuario: 'paulo', senha: 'xyz', setor: 'Financeiro', tipoUsuario: 'funcionario' }
-];*/
-
-/* const equipamentos = [
-  {
-    nome: 'Notebook',
-    descricao: 'Notebook Thinkpad',
-    quantidade: 20
-  },
-  {
-    nome: 'Projetor',
-    descricao: 'Mini Projetor portátil',
-    quantidade: 5
-  },
-  {
-    nome: 'Teclado',
-    descricao: 'Teclado Multilaser',
-    quantidade: 20
-  },
-]
-*/
 const caminhoArquivo = path.join(__dirname, 'agendamentos.json');
 const caminhoEquipamentos = path.join(__dirname, 'equipamentos.json');
 const caminhoUsuarios = path.join(__dirname, 'usuarios.json');
+const caminhoReservas = path.join(__dirname, 'reservas.json');
 
 // Rota de login
 app.post('/login', (req, res) => {
   const { usuario, senha } = req.body;
-  
-  const dados = fs.readFileSync(caminhoUsuarios, {encoding: 'utf8'});
-  let usuarios = JSON.parse(dados)
-
+  const dados = fs.readFileSync(caminhoUsuarios, { encoding: 'utf8' });
+  const usuarios = JSON.parse(dados);
   const user = usuarios.find(u => u.usuario === usuario && u.senha === senha);
 
   if (user) {
@@ -57,7 +31,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-// Rota de agendamento com verificação de conflito
+// Rota de agendamento de sala
 app.post('/agendar', (req, res) => {
   const { usuario, tipoUsuario, setor, sala, inicio, fim } = req.body;
 
@@ -66,7 +40,6 @@ app.post('/agendar', (req, res) => {
   }
 
   const novoAgendamento = { usuario, setor, sala, inicio, fim };
-
   let agendamentos = [];
 
   try {
@@ -76,12 +49,10 @@ app.post('/agendar', (req, res) => {
     console.error('Erro ao ler agendamentos:', err);
   }
 
-  const conflito = agendamentos.find(ag => {
-    return (
-      ag.sala === sala &&
-      ((inicio >= ag.inicio && inicio < ag.fim) || (fim > ag.inicio && fim <= ag.fim))
-    );
-  });
+  const conflito = agendamentos.find(ag =>
+    ag.sala === sala &&
+    ((inicio >= ag.inicio && inicio < ag.fim) || (fim > ag.inicio && fim <= ag.fim))
+  );
 
   if (conflito) {
     return res.json({
@@ -123,7 +94,6 @@ app.delete('/excluir/:index', (req, res) => {
     if (index >= 0 && index < agendamentos.length) {
       const agendamento = agendamentos[index];
 
-      // Verifica se o setor do agendamento bate com o do supervisor
       if (agendamento.setor !== setor) {
         return res.status(403).json({
           success: false,
@@ -142,11 +112,9 @@ app.delete('/excluir/:index', (req, res) => {
   }
 });
 
-// Rota para os equipamentos
-
+// Rota para adicionar equipamento
 app.post('/equipamento', (req, res) => {
-  const {nome, descricao , quantidade} = req.body;
-
+  const { nome, descricao, quantidade } = req.body;
   let equipamentos = [];
 
   try {
@@ -155,53 +123,99 @@ app.post('/equipamento', (req, res) => {
   } catch (err) {
     console.error('Erro ao ler equipamentos:', err);
   }
-  
-  equipamentos.push({nome, descricao, quantidade});
-  
+
+  equipamentos.push({ nome, descricao, quantidade });
+
   try {
     fs.writeFileSync(caminhoEquipamentos, JSON.stringify(equipamentos, null, 2));
     res.json({ success: true });
   } catch (err) {
     res.json({ success: false, message: 'Erro ao adicionar equipamento.' });
-  }  
+  }
+});
 
-})
-
+// Rota para listar equipamentos
 app.get('/equipamento', (req, res) => {
-    try {
+  try {
     const dados = fs.readFileSync(caminhoEquipamentos);
     const equipamentos = JSON.parse(dados);
     res.json(equipamentos);
   } catch (err) {
     res.status(500).json({ message: 'Erro ao carregar equipamentos.' });
   }
-})
+});
 
-
-// Rota para os usuarios
-
+// Rota para cadastrar usuários
 app.post('/usuario', (req, res) => {
-  const {usuario, email , senha, setor, tipoUsuario} = req.body;
-  
+  const { usuario, email, senha, setor, tipoUsuario } = req.body;
   let usuarios = [];
 
   try {
     const dados = fs.readFileSync(caminhoUsuarios);
     usuarios = JSON.parse(dados);
   } catch (err) {
-    console.error('Erro ao ler usuarios:', err);
+    console.error('Erro ao ler usuários:', err);
   }
-  
-  usuarios.push({usuario, email, senha, setor, tipoUsuario});
-  
+
+  usuarios.push({ usuario, email, senha, setor, tipoUsuario });
+
   try {
     fs.writeFileSync(caminhoUsuarios, JSON.stringify(usuarios, null, 2));
     res.json({ success: true });
   } catch (err) {
-    res.json({ success: false, message: 'Erro ao criar usuarios.' });
-  }  
-})
+    res.json({ success: false, message: 'Erro ao criar usuário.' });
+  }
+});
 
+// Rota para listar todos os usuários
+app.get('/usuarios', (req, res) => {
+  try {
+    const dados = fs.readFileSync(caminhoUsuarios, 'utf8');
+    const usuarios = JSON.parse(dados);
+    res.json(usuarios);
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao carregar usuários.' });
+  }
+});
+
+// Rota para reservar equipamento
+app.post('/reservar-equipamento', (req, res) => {
+  const { usuario, tipoUsuario, setor, equipamento, inicio, fim } = req.body;
+
+  if (tipoUsuario !== 'supervisor') {
+    return res.status(403).json({ success: false, message: 'Apenas supervisores podem reservar equipamentos.' });
+  }
+
+  let reservas = [];
+  try {
+    reservas = JSON.parse(fs.readFileSync(caminhoReservas, 'utf8'));
+  } catch (err) {
+    console.error('Erro ao ler reservas:', err);
+  }
+
+  const conflito = reservas.find(r =>
+    r.equipamento === equipamento &&
+    ((inicio >= r.inicio && inicio < r.fim) || (fim > r.inicio && fim <= r.fim))
+  );
+
+  if (conflito) {
+    return res.json({
+      success: false,
+      message: `Equipamento já reservado entre ${conflito.inicio} e ${conflito.fim}`
+    });
+  }
+
+  reservas.push({ usuario, setor, equipamento, inicio, fim });
+
+  try {
+    fs.writeFileSync(caminhoReservas, JSON.stringify(reservas, null, 2));
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Erro ao salvar reserva.' });
+  }
+});
+
+// Inicializa o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

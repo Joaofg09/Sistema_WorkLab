@@ -8,10 +8,10 @@
   },
   {
     "usuario": "Luan",
-    "email": "luan@supervisor.com",
+    "email": "luan@funcionario.com",
     "senha": "456",
     "setor": "TI",
-    "tipoUsuario": "supervisor"
+    "tipoUsuario": "funcionario"
   },
   {
     "usuario": "Maria",
