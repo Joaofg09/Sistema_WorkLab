@@ -1,0 +1,18 @@
+[
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Monitor",
+    "inicio": "2025-06-20",
+    "fim": "2025-06-26"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Filtro de linha",
+    "inicio": "2025-06-25",
+    "fim": "2025-07-23"
+  }
+]

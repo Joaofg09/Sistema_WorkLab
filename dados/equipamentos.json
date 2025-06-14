@@ -28,5 +28,10 @@
     "nome": "Mouse",
     "descricao": "Mouse com fio",
     "quantidade": 15
+  },
+  {
+    "nome": "Filtro de linha",
+    "descricao": "Filtro de linha",
+    "quantidade": 5
   }
 ]

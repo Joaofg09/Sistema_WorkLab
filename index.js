@@ -7,10 +7,10 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-const caminhoArquivo = path.join(__dirname, 'agendamentos.json');
-const caminhoEquipamentos = path.join(__dirname, 'equipamentos.json');
-const caminhoUsuarios = path.join(__dirname, 'usuarios.json');
-const caminhoReservas = path.join(__dirname, 'reservas.json');
+const caminhoArquivo = path.join(__dirname, './dados/agendamentos.json');
+const caminhoEquipamentos = path.join(__dirname, './dados/equipamentos.json');
+const caminhoUsuarios = path.join(__dirname, './dados/usuarios.json');
+const caminhoReservas = path.join(__dirname, './dados/reservas.json');
 
 // Rota de login
 app.post('/login', (req, res) => {
