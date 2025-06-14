@@ -95,7 +95,6 @@
 
   <script>
     const usuario = JSON.parse(sessionStorage.getItem('usuario'));
-
     if (!usuario || usuario.tipoUsuario !== 'supervisor') {
       document.getElementById('form-equipamento').style.display = 'none';
       document.getElementById('form-reserva').style.display = 'none';
@@ -218,8 +217,10 @@
         destinatario
       };
 
+      console.log(reserva)
+
       try {
-        const res = await fetch('/reserva-equipamento', {
+        const res = await fetch('/reservar-equipamento', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(reserva)

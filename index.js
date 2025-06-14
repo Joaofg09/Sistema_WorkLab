@@ -180,11 +180,7 @@ app.get('/usuarios', (req, res) => {
 
 // Rota para reservar equipamento
 app.post('/reservar-equipamento', (req, res) => {
-  const { usuario, tipoUsuario, setor, equipamento, inicio, fim } = req.body;
-
-  if (tipoUsuario !== 'supervisor') {
-    return res.status(403).json({ success: false, message: 'Apenas supervisores podem reservar equipamentos.' });
-  }
+  const { destinatario, supervisor, setor, equipamento, inicio, fim } = req.body;
 
   let reservas = [];
   try {
@@ -205,7 +201,7 @@ app.post('/reservar-equipamento', (req, res) => {
     });
   }
 
-  reservas.push({ usuario, setor, equipamento, inicio, fim });
+  reservas.push({ destinatario, supervisor , setor, equipamento, inicio, fim });
 
   try {
     fs.writeFileSync(caminhoReservas, JSON.stringify(reservas, null, 2));

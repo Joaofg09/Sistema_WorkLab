@@ -23,5 +23,10 @@
     "nome": "Monitor",
     "descricao": "Monitor Samsung",
     "quantidade": 10
+  },
+  {
+    "nome": "Mouse",
+    "descricao": "Mouse com fio",
+    "quantidade": 15
   }
 ]
