@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Login - WorkHub Corp</title>
   <style>
-    
+   
     * {
       margin: 0;
       padding: 0;
@@ -38,18 +38,24 @@
       color: #003668;
       margin-bottom: 20px;
     }
-
-    input[type="text"],
-    input[type="password"],
-    select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
+    
+    .voltar {
+      display: block; /* Para o botão não ocupar a largura total e permitir alinhamento */
+      width: 100%; /* Garante que ocupe 100% da largura */
+      padding: 12px 20px;
+      margin-bottom: 10px; /* Espaçamento abaixo do botão */
+      background-color: #003668; /* Cor azul para o botão */
+      color: white;
+      text-decoration: none; /* Remove o sublinhado padrão do link */
       border-radius: 6px;
-      font-size: 14px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      text-align: center; /* Centraliza o texto dentro do botão */
     }
-
+    .voltar:hover {
+      background-color: #0056b3;
+    }
+   
     button {
       width: 100%;
       padding: 12px;
@@ -77,13 +83,12 @@
 <body>
   <div class="login-container">
     <img src="images/logo.png" alt="WorkHub Corp Logo" />
-    <h2>Bem-vindo à WorkHub</h2>
-    <form id="loginForm">
-      <input type="text" id="email" placeholder="Email" required />
-      <input type="password" id="senha" placeholder="Senha" required />
-      
-      <button type="submit">Entrar</button>
-    </form>
+    <h2>Bem vindo!</h2>
+    <a href="agendamento.html" class="voltar">Agendar Sala</a>
+    <a href="reserva-equipamentos.html" class="voltar">Reservar Equipamento</a>
+    <a href="agenda.html" class="voltar">Visualizar Agenda</a>
+    <a href="historico.html" class="voltar">Histórico de Reservas</a>
+    <a href="historico-equipamento.html" class="voltar">Histórico de Equipamentos</a>
     <div id="msg"></div>
   </div>
 
@@ -92,7 +97,7 @@
       e.preventDefault();
 
       const destino = document.getElementById('destino').value;
-
+      
       if (!destino) {
         document.getElementById('msg').innerText = '❌ Selecione o destino antes de continuar.';
         return;
