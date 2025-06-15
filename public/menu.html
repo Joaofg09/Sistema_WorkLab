@@ -84,8 +84,8 @@
   <div class="login-container">
     <img src="images/logo.png" alt="WorkHub Corp Logo" />
     <h2>Bem vindo!</h2>
-    <a href="agendamento.html" class="voltar">Agendar Sala</a>
-    <a href="reserva-equipamentos.html" class="voltar">Reservar Equipamento</a>
+    <a href="agendamento.html" class="voltar" id="btnAgendarSala">Agendar Sala</a>
+    <a href="reserva-equipamentos.html" class="voltar" id="btnReservarEquipamento">Reservar Equipamento</a>
     <a href="agenda.html" class="voltar">Visualizar Agenda</a>
     <a href="historico.html" class="voltar">Histórico de Reservas</a>
     <a href="historico-equipamento.html" class="voltar">Histórico de Equipamentos</a>
@@ -93,47 +93,25 @@
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // Código para esconder/mostrar os botões deve estar aqui
+    document.addEventListener('DOMContentLoaded', () => {
+      const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
 
-      const destino = document.getElementById('destino').value;
-      
-      if (!destino) {
-        document.getElementById('msg').innerText = '❌ Selecione o destino antes de continuar.';
-        return;
-      }
+      const btnAgendarSala = document.getElementById('btnAgendarSala');
+      const btnReservarEquipamento = document.getElementById('btnReservarEquipamento');
 
-      const dados = {
-        email: document.getElementById('email').value,
-        senha: document.getElementById('senha').value
-      };
-
-      const res = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        const usuarioCompleto = {
-          usuario: data.usuario.usuario,
-          setor: data.usuario.setor,
-          tipoUsuario: data.usuario.tipoUsuario
-        };
-        sessionStorage.setItem('usuario', JSON.stringify(usuarioCompleto));
-
-        // Redirecionamento com base na escolha
-        if (destino === 'agendamento') {
-          window.location.href = '/agendamento.html';
-        } else if (destino === 'equipamentos') {
-          window.location.href = '/reserva-equipamentos.html';
+      // Verifica se o usuário não é supervisor ou se não há usuário logado
+      if (!usuarioLogado || usuarioLogado.tipoUsuario !== 'supervisor') {
+        if (btnAgendarSala) {
+          btnAgendarSala.style.display = 'none'; // Esconde o botão Agendar Sala
         }
-      } else {
-        document.getElementById('msg').innerText = '❌ ' + (data.message || 'Login inválido');
+        if (btnReservarEquipamento) {
+          btnReservarEquipamento.style.display = 'none'; // Esconde o botão Reservar Equipamento
+        }
       }
+      // Se for supervisor, os botões permanecem visíveis (padrão)
     });
+   
   </script>
 </body>
 </html>
