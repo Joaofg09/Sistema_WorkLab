@@ -88,47 +88,39 @@
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-      const destino = document.getElementById('destino').value;
+      const dados = {
+        email: document.getElementById('email').value,
+        senha: document.getElementById('senha').value
+      };
 
-      if (!destino) {
-        document.getElementById('msg').innerText = '❌ Selecione o destino antes de continuar.';
-        return;
+      try {
+          const res = await fetch('/login', { // Assegure-se que '/login' é o endpoint correto
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(dados)
+          });
+          const data = await res.json(); // Processa a resposta JSON do servidor
+
+          if (data.success) {
+              const usuarioCompleto = {
+                  usuario: data.usuario.usuario,
+                  setor: data.usuario.setor,
+                  tipoUsuario: data.usuario.tipoUsuario
+              };
+              sessionStorage.setItem('usuario', JSON.stringify(usuarioCompleto));
+
+              window.location.href = '/menu.html';
+          } else {
+              document.getElementById('msg').innerText = '❌ ' + (data.message || 'Login inválido');
+          }
+      } catch (error) {
+          console.error('Erro na requisição de login:', error);
+          document.getElementById('msg').innerText = '❌ Erro de conexão. Tente novamente.';
       }
-
-      const dados = {
-        email: document.getElementById('email').value,
-        senha: document.getElementById('senha').value
-      };
-
-      const res = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        const usuarioCompleto = {
-          usuario: data.usuario.usuario,
-          setor: data.usuario.setor,
-          tipoUsuario: data.usuario.tipoUsuario
-        };
-        sessionStorage.setItem('usuario', JSON.stringify(usuarioCompleto));
-
-        // Redirecionamento com base na escolha
-        if (destino === 'agendamento') {
-          window.location.href = '/agendamento.html';
-        } else if (destino === 'equipamentos') {
-          window.location.href = '/reserva-equipamentos.html';
-        }
-      } else {
-        document.getElementById('msg').innerText = '❌ ' + (data.message || 'Login inválido');
-      }
-    });
+    });
   </script>
 </body>
 </html>
