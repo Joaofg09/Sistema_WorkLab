@@ -1,17 +1,26 @@
 [
   {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala 101",
+    "inicio": "2025-06-15T09:00:00",
+    "fim": "2025-06-15T10:00:00",
+    "registrado_em": "2025-06-15T11:23:45.678Z"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "304",
+    "inicio": "2025-06-15T12:50",
+    "fim": "2025-06-15T15:00",
+    "registrado_em": "2025-06-15T15:50:47.246Z"
+  },
+   {
     "usuario": "jana",
     "setor": "Marketing",
     "sala": "201",
     "inicio": "2025-04-25T15:27",
     "fim": "2025-04-25T17:29"
-  },
-  {
-    "usuario": "joao",
-    "setor": "TI",
-    "sala": "101",
-    "inicio": "2025-04-14T17:33",
-    "fim": "2025-04-14T18:34"
   },
   {
     "usuario": "jana",

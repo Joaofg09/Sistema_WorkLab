@@ -117,5 +117,29 @@
     "equipamento": "Teclado",
     "inicio": "2025-06-28",
     "fim": "2025-06-30"
+  },
+  {
+    "destinatario": "Joao",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Mouse com fio",
+    "inicio": "2025-06-16",
+    "fim": "2025-06-17"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Mouse sem fio",
+    "inicio": "2025-06-24",
+    "fim": "2025-06-25"
+  },
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Mouse sem fio",
+    "inicio": "2025-06-13",
+    "fim": "2025-06-21"
   }
 ]

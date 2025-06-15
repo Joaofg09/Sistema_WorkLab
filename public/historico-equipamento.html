@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Histórico de Reservas de Equipamentos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      margin: 0;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #003668;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    li {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    strong {
+      color: #003668;
+    }
+
+    em {
+      color: #555;
+      font-style: normal;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #eee;
+      margin-top: 15px;
+    }
+
+    .sem-registros {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Histórico de Reservas de Equipamentos</h1>
+  <ul id="historico-equipamentos"></ul>
+
+  <script>
+    function formatarData(dataISO) {
+      if (!dataISO) return 'Data não registrada';
+      const data = new Date(dataISO);
+      return data.toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    fetch('/historico-equipamentos')
+      .then(response => response.json())
+      .then(data => {
+        const lista = document.getElementById('historico-equipamentos');
+
+        if (!data || data.length === 0) {
+          lista.innerHTML = '<p class="sem-registros">Nenhuma reserva registrada até o momento.</p>';
+          return;
+        }
+
+        data.forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <strong>${item.supervisor}</strong> reservou o equipamento <strong>${item.equipamento}</strong><br>
+            Destinatário: <em>${item.destinatario}</em> — Setor: <em>${item.setor}</em><br>
+            De: <em>${formatarData(item.inicio)}</em><br>
+            Até: <em>${formatarData(item.fim)}</em><br>
+            Registrado em: <em>${formatarData(item.registrado_em)}</em>
+            <hr>
+          `;
+          lista.appendChild(li);
+        });
+      })
+      .catch(error => {
+        console.error('Erro ao carregar histórico:', error);
+        document.getElementById('historico-equipamentos').innerHTML = '<p class="sem-registros">Erro ao carregar os dados.</p>';
+      });
+  </script>
+</body>
+</html>

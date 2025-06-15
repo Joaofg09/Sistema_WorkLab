@@ -14,6 +14,9 @@ const caminhoArquivo = path.join(__dirname, './dados/agendamentos.json');
 const caminhoEquipamentos = path.join(__dirname, './dados/equipamentos.json');
 const caminhoUsuarios = path.join(__dirname, './dados/usuarios.json');
 const caminhoReservas = path.join(__dirname, './dados/reservas.json');
+const caminhoHistorico = path.join(__dirname, './dados/historico.json');
+const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico_equipamentos.json');
+
 
 // Rota de login
 app.post('/login', (req, res) => {
@@ -64,15 +67,57 @@ app.post('/agendar', (req, res) => {
     });
   }
 
-  agendamentos.push(novoAgendamento);
+ agendamentos.push(novoAgendamento);
 
-  try {
-    fs.writeFileSync(caminhoArquivo, JSON.stringify(agendamentos, null, 2));
-    res.json({ success: true });
-  } catch (err) {
-    res.json({ success: false, message: 'Erro ao salvar agendamento.' });
+try {
+  fs.writeFileSync(caminhoArquivo, JSON.stringify(agendamentos, null, 2));
+
+  // Etapa de gravação do histórico com logs
+  console.log("Salvando no histórico...");
+
+  const novaEntradaHistorico = {
+    usuario,
+    setor,
+    sala,
+    inicio,
+    fim,
+    registrado_em: new Date().toISOString()
+  };
+
+  console.log("Nova entrada de histórico:", novaEntradaHistorico);
+
+  let historico = [];
+
+  if (fs.existsSync(caminhoHistorico)) {
+    const dadosHistorico = fs.readFileSync(caminhoHistorico, 'utf8');
+    historico = JSON.parse(dadosHistorico);
+  } else {
+    console.log("Arquivo histórico ainda não existe. Será criado.");
   }
+
+  historico.push(novaEntradaHistorico);
+
+  fs.writeFileSync(caminhoHistorico, JSON.stringify(historico, null, 2));
+  console.log("Histórico salvo com sucesso.");
+
+  res.json({ success: true });
+
+} catch (err) {
+  console.error("Erro ao salvar agendamento ou histórico:", err);
+  res.json({ success: false, message: 'Erro ao salvar agendamento ou histórico.' });
+}
 });
+
+app.get('/historico', (req, res) => {
+  fs.readFile(caminhoHistorico, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Erro ao carregar histórico');
+    }
+    const historico = JSON.parse(data);
+    res.json(historico);
+  });
+});
+
 
 // Rota para listar agendamentos
 app.get('/agendamentos', (req, res) => {
@@ -201,42 +246,94 @@ function reduzirEquipamento(id) {
 }
 
 // Rota para reservar equipamento
-app.post('/reservar-equipamento', (req, res) => {
+ app.post('/reservar-equipamento', (req, res) => {
   const { equipamentoId, destinatario, supervisor, setor, equipamento, inicio, fim } = req.body;
 
-  let reservas = [];
-  try {
-    reservas = JSON.parse(fs.readFileSync(caminhoReservas, 'utf8'));
-  } catch (err) {
-    console.error('Erro ao ler reservas:', err);
+  if (!equipamentoId || !destinatario || !supervisor || !setor || !equipamento || !inicio || !fim) {
+    return res.status(400).json({ success: false, message: 'Dados incompletos para reserva.' });
   }
 
-  const conflito = reservas.find(r =>
-    r.equipamento === equipamento &&
-    ((inicio >= r.inicio && inicio < r.fim) || (fim > r.inicio && fim <= r.fim))
-  );
+  let reservas = [];
+
+  try {
+    reservas = JSON.parse(fs.readFileSync(caminhoReservas, 'utf8'));
+  } catch {
+    // arquivo pode não existir, segue com array vazio
+  }
+
+  const inicioReq = new Date(inicio).getTime();
+  const fimReq = new Date(fim).getTime();
+
+  const conflito = reservas.find(r => {
+    const inicioReserva = new Date(r.inicio).getTime();
+    const fimReserva = new Date(r.fim).getTime();
+    return r.equipamento === equipamento &&
+      ((inicioReq >= inicioReserva && inicioReq < fimReserva) || (fimReq > inicioReserva && fimReq <= fimReserva));
+  });
 
   if (conflito) {
-    return res.json({
+    return res.status(409).json({
       success: false,
       message: `Equipamento já reservado entre ${conflito.inicio} e ${conflito.fim}`
     });
   }
 
-  reservas.push({ destinatario, supervisor , setor, equipamento, inicio, fim });
   const reduziu = reduzirEquipamento(equipamentoId);
-
   if (!reduziu) {
-    return res.json({ success: false, message: 'Erro ao reduzir quantidade do equipamento.' });
+    return res.status(500).json({ success: false, message: 'Erro ao reduzir quantidade do equipamento.' });
   }
+
+  reservas.push({ destinatario, supervisor, setor, equipamento, inicio, fim });
 
   try {
     fs.writeFileSync(caminhoReservas, JSON.stringify(reservas, null, 2));
-    res.json({ success: true });
+
+    const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico_equipamentos.json');
+
+    const novaEntradaHistoricoEquipamento = {
+      destinatario,
+      supervisor,
+      setor,
+      equipamento,
+      inicio,
+      fim,
+      registrado_em: new Date().toISOString()
+    };
+
+    let historicoEquip = [];
+
+    if (fs.existsSync(caminhoHistoricoEquipamentos)) {
+      const dadosHistoricoEquip = fs.readFileSync(caminhoHistoricoEquipamentos, 'utf8');
+      historicoEquip = JSON.parse(dadosHistoricoEquip);
+    }
+
+    historicoEquip.push(novaEntradaHistoricoEquipamento);
+
+    fs.writeFileSync(caminhoHistoricoEquipamentos, JSON.stringify(historicoEquip, null, 2));
+
+    return res.json({ success: true });
+
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Erro ao salvar reserva.' });
+    console.error('Erro ao salvar reserva ou histórico:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao salvar reserva ou histórico.' });
   }
 });
+
+
+
+app.get('/historico-equipamentos', (req, res) => {
+  const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico_equipamentos.json');
+
+  fs.readFile(caminhoHistoricoEquipamentos, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Erro ao carregar histórico de equipamentos');
+    }
+
+    const historico = JSON.parse(data);
+    res.json(historico);
+  });
+});
+
 
 // Inicializa o servidor
 app.listen(PORT, () => {
