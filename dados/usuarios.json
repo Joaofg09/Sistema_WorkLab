@@ -42,10 +42,10 @@
     "tipoUsuario": "funcionario"
   },
   {
-    "usuario": "Desconhecido",
-    "email": "Desconhecido@funcionario.com",
-    "senha": "xyz",
+    "usuario": "Daniel",
+    "email": "daniel@supervisor.com",
+    "senha": "123",
     "setor": "Financeiro",
-    "tipoUsuario": "funcionario"
+    "tipoUsuario": "supervisor"
   }
 ]

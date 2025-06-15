@@ -24,7 +24,7 @@ app.post('/login', (req, res) => {
   const dados = fs.readFileSync(caminhoUsuarios, { encoding: 'utf8' });
   const usuarios = JSON.parse(dados);
   const user = usuarios.find(u => u.email === email && u.senha === senha);
-  console.log(email, senha)
+
   if (user) {
     res.json({
       success: true,
@@ -234,8 +234,11 @@ function reduzirEquipamento(id) {
 
     if (index === -1) return false;
 
-    equipamentos[index].quantidade -= 1;
-    if (equipamentos[index].quantidade < 0) equipamentos[index].quantidade = 0;
+    if (equipamentos[index].quantidade > 0) {
+      equipamentos[index].quantidade -= 1;
+    }else{
+      return false
+    }
 
     fs.writeFileSync(caminhoEquipamentos, JSON.stringify(equipamentos, null, 2));
     return true;
@@ -261,26 +264,9 @@ function reduzirEquipamento(id) {
     // arquivo pode não existir, segue com array vazio
   }
 
-  const inicioReq = new Date(inicio).getTime();
-  const fimReq = new Date(fim).getTime();
-
-  const conflito = reservas.find(r => {
-    const inicioReserva = new Date(r.inicio).getTime();
-    const fimReserva = new Date(r.fim).getTime();
-    return r.equipamento === equipamento &&
-      ((inicioReq >= inicioReserva && inicioReq < fimReserva) || (fimReq > inicioReserva && fimReq <= fimReserva));
-  });
-
-  if (conflito) {
-    return res.status(409).json({
-      success: false,
-      message: `Equipamento já reservado entre ${conflito.inicio} e ${conflito.fim}`
-    });
-  }
-
   const reduziu = reduzirEquipamento(equipamentoId);
   if (!reduziu) {
-    return res.status(500).json({ success: false, message: 'Erro ao reduzir quantidade do equipamento.' });
+    return res.status(500).json({ success: false, message: 'Equipamento com estoque esgotado.' });
   }
 
   reservas.push({ destinatario, supervisor, setor, equipamento, inicio, fim });
@@ -322,7 +308,6 @@ function reduzirEquipamento(id) {
 
 
 app.get('/historico-equipamentos', (req, res) => {
-  const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico-equipamentos.json');
 
   fs.readFile(caminhoHistoricoEquipamentos, 'utf8', (err, data) => {
     if (err) {
