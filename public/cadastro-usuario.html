@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastro de Usuário</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .btn-voltar {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        z-index: 1000;
+        transition: background-color 0.3s;
+        }
+
+    .btn-voltar:hover {
+        background-color: #0056b3;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    #outro-setor {
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      background-color: #003366;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #002244;
+    }
+  </style>
+</head>
+<body>
+  <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
+  <div class="container">
+    <h2>Cadastro de Novo Usuário</h2>
+    <form id="formCadastro">
+      <input type="text" id="usuario" placeholder="Nome de usuário" name="nome" required>
+      <input type="email" id="email" placeholder="email@workhub.com" name="email" required>
+      <input type="password" id="senha" placeholder="Senha" name="senha" required>
+
+      <select name="setor" id="setor" required onchange="mostrarOutroSetor(this)">
+        <option value="" disabled selected>Selecione o setor</option>
+        <option value="TI">TI</option>
+        <option value="RH">RH</option>
+        <option value="Financeiro">Financeiro</option>
+        <option value="Outros">Outros</option>
+      </select>
+
+      <input type="text" id="outro-setor" placeholder="Digite o novo setor">
+
+      <select name="tipoUsuario" id="tipoUsuario" required>
+        <option value="" disabled selected>Tipo de usuário</option>
+        <option value="supervisor">Supervisor</option>
+        <option value="funcionario">Funcionário</option>
+      </select>
+
+      <button type="submit">Cadastrar Usuário</button>
+    </form>
+    <div id="msg" style="margin-top: 10px;"></div>
+  </div>
+
+  <script>
+    /*
+    */ 
+    const usuario = JSON.parse(sessionStorage.getItem('usuario'));
+    if (!usuario || usuario.tipoUsuario !== 'supervisor') {
+        document.getElementById('formCadastro').style.display = 'none';
+        const aviso = document.createElement('p');
+        aviso.style.color = 'red';
+        aviso.innerText = '⚠️ Apenas supervisores podem cadastrar novos usuários.';
+        document.body.appendChild(aviso);
+    }
+
+    function mostrarOutroSetor(select) {
+      const outroInput = document.getElementById('outro-setor');
+      if (select.value === 'Outros') {
+        outroInput.style.display = 'block';
+        outroInput.required = true;
+      } else {
+        outroInput.style.display = 'none';
+        outroInput.required = false;
+      }
+    }
+
+    const form = document.getElementById('formCadastro');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const dados = {
+        usuario: document.getElementById('usuario').value,
+        email: document.getElementById('email').value,
+        senha: document.getElementById('senha').value,
+        setor: document.getElementById('setor').value,
+        tipoUsuario: document.getElementById('tipoUsuario').value
+      };
+
+      fetch('/usuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          msg.innerText = "✅ Cadastro feito com sucesso!";
+          msg.style.color = "green";
+        } else {
+          msg.innerText = "❌ " + (data.message || "Erro no cadastro.");
+          msg.style.color = "red";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -47,5 +47,13 @@
     "senha": "123",
     "setor": "Financeiro",
     "tipoUsuario": "supervisor"
+  },
+  {
+    "id": "712ad154-d682-4122-989c-c21d425a83eb",
+    "usuario": "Odinelson",
+    "email": "odinelson@workhub.com",
+    "senha": "1234",
+    "setor": "TI",
+    "tipoUsuario": "funcionario"
   }
 ]

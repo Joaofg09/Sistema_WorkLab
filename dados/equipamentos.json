@@ -1,32 +1,104 @@
 [
   {
-    "id": "321f0626-60f7-4da6-bba2-ce9121747c46",
-    "nome": "Monitor AOC",
-    "descricao": "Monitor 24'",
-    "quantidade": 5
+    "id": "35e46d84-7fc3-4af3-ad21-ac63415a003d",
+    "nome": "Cadeira Ergonômica com Regulagem",
+    "descricao": "Cadeira com base giratória, pistão pneumático para ajuste de altura, encosto com apoio lombar e apoio de braço fixo.",
+    "quantidade": 15
   },
   {
-    "id": "617c5c0d-c196-4a35-bf79-302fa2dc64e9",
-    "nome": "Mouse sem fio",
-    "descricao": "Mouse sem fio",
-    "quantidade": 23
+    "id": "8775ebc4-5840-45d7-a99d-3e7180a508ec",
+    "nome": "Mesa Dobrável de Polietileno",
+    "descricao": "Mesa com tampo em polietileno de alta densidade, estrutura metálica dobrável e capacidade de carga de até 150 kg distribuídos.",
+    "quantidade": 6
   },
   {
-    "id": "87e985fa-262e-48d9-9638-437510c96aa6",
-    "nome": "Mouse com fio",
-    "descricao": "Mouse com fio",
-    "quantidade": 23
+    "id": "1a74df6b-a6b8-4143-8a51-a1aa4c2be0e0",
+    "nome": "Notebook Dell Inspiron 15 3000",
+    "descricao": "Equipado com processador Intel Core i5, 8 GB de memória RAM DDR4, SSD de 256 GB, tela de 15.6” Full HD, e sistema operacional Windows 11.",
+    "quantidade": 15
   },
   {
-    "id": "b017ddb8-2a68-4db2-97ae-5ff894b8f64d",
-    "nome": "Teclado",
-    "descricao": "Teclado com fio",
-    "quantidade": 0
+    "id": "b65a8e90-faa5-4aa0-b442-8db8372b25f1",
+    "nome": "Monitor Samsung LED 24”",
+    "descricao": "Resolução Full HD (1920x1080), tempo de resposta de 5ms, taxa de atualização de 60Hz, entradas HDMI e VGA, compatível com suporte VESA.",
+    "quantidade": 20
   },
   {
-    "id": "3b5419be-e405-4064-be3f-35fc96c37179",
-    "nome": "Teclado",
-    "descricao": "Teclado sem fio",
-    "quantidade": 5
+    "id": "bad50ea8-526d-4f73-b981-4099bc85790d",
+    "nome": "Teclado USB ABNT2",
+    "descricao": "Teclado com layout brasileiro, conexão USB 2.0, 107 teclas, membrana silenciosa e compatibilidade com Windows, Linux e MacOS.",
+    "quantidade": 25
+  },
+  {
+    "id": "6f6b44ef-5d53-480c-a977-201d28f4a6ad",
+    "nome": "Mouse Óptico USB",
+    "descricao": "Sensor óptico de 1000 DPI, conexão USB com cabo de 1,5m, compatível com plug-and-play em diversos sistemas operacionais.",
+    "quantidade": 25
+  },
+  {
+    "id": "2c4ef1d1-c04f-4602-8643-6b4ea6e2fff6",
+    "nome": "Projetor Multimídia Epson X41",
+    "descricao": "Resolução nativa XGA (1024x768), brilho de 3600 lumens, lâmpada UHE de 210W, entradas HDMI e VGA, vida útil da lâmpada de até 10.000 horas (modo econômico).",
+    "quantidade": 6
+  },
+  {
+    "id": "2d9c8cb5-4e6e-42c2-8a16-2029e1973bda",
+    "nome": "Headset com Microfone USB",
+    "descricao": "Fones com drivers de 40mm, microfone com captação unidirecional, controle de volume no cabo e conexão USB-A.",
+    "quantidade": 25
+  },
+  {
+    "id": "a13e3a94-9442-42fc-b0f0-e75fff0b954c",
+    "nome": "Extensão Elétrica com 5 Tomadas",
+    "descricao": "Cabo de 1,5m, tensão suportada 127V/220V, corrente máxima de 10A, com chave liga/desliga e fusível de proteção.",
+    "quantidade": 26
+  },
+  {
+    "id": "1f2b8246-f6ab-4d1e-8070-7fd0e4bac622",
+    "nome": "Fonte Universal para Notebook",
+    "descricao": "Fonte bivolt automática, potência de 90W, múltiplos conectores intercambiáveis com ajuste manual de voltagem entre 12V e 20V.",
+    "quantidade": 20
+  },
+  {
+    "id": "c6e937e4-4212-4a4e-9d14-472bc2c0e159",
+    "nome": "Quadro Branco 60x90cm com Moldura de Alumínio",
+    "descricao": "Superfície de melamina branca para escrita com marcador apagável a seco, estrutura leve em alumínio anodizado e suportes de fixação inclusos.",
+    "quantidade": 6
+  },
+  {
+    "id": "61a3a854-a811-468a-81e2-02a2c7b9e375",
+    "nome": "Bloco de Anotações A4 – 100 folhas",
+    "descricao": "Papel offset 75g/m², 100 folhas pautadas, encadernação espiral em wire-o e capa em polipropileno.",
+    "quantidade": 50
+  },
+  {
+    "id": "48511a86-a891-4060-b501-6915d6167e69",
+    "nome": "Conjunto de Canetas Esferográficas",
+    "descricao": "Tinta à base de óleo, ponta de 1.0mm, corpo em plástico translúcido, tampa ventilada e clip plástico.",
+    "quantidade": 50
+  },
+  {
+    "id": "87656f48-90c2-43b8-ab81-f9a9f376dff2",
+    "nome": "Kit de Marcadores para Quadro Branco",
+    "descricao": "Tinta à base de álcool, cores sortidas, ponta chanfrada de 5mm, recarregáveis, com corpo em polipropileno.",
+    "quantidade": 30
+  },
+  {
+    "id": "fb43b9f1-e77a-4662-8d8c-b15a12ed6a7b",
+    "nome": "Calculadora Científica Casio fx-82MS",
+    "descricao": "240 funções matemáticas, visor de 2 linhas, alimentação por pilha AAA, corpo em plástico ABS.",
+    "quantidade": 25
+  },
+  {
+    "id": "fd589253-bff9-4be1-80a9-535c3a86b794",
+    "nome": "Scanner Portátil Canon P-208II",
+    "descricao": "Digitalização colorida em até 600dpi, velocidade de até 8 páginas por minuto, conexão USB 2.0, alimentador automático de documentos com capacidade para 10 folhas.",
+    "quantidade": 25
+  },
+  {
+    "id": "bd5e2f6f-6c9c-4a5b-b77a-5a3cdd4dca4f",
+    "nome": "Suporte para Notebook Ajustável em Alumínio",
+    "descricao": "Estrutura em alumínio anodizado, ajustes de inclinação entre 15° e 45°, dobrável e com pés emborrachados para fixação.",
+    "quantidade": 15
   }
 ]

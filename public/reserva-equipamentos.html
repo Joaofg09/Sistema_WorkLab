@@ -31,9 +31,49 @@
 }
     }
 
+    .btn-voltar {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        z-index: 1000;
+        transition: background-color 0.3s;
+        }
+
+    .btn-voltar:hover {
+        background-color: #0056b3;
+    }
+
     h1 {
       color: #003668;
-      margin-bottom: 20px;
+      margin-top: 50px;
+      text-align: center;
+    }
+    
+    h2 {
+      text-align: center;
+    }
+
+    .centro {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    form {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
     }
 
     .equipamento {
@@ -80,18 +120,19 @@
   </style>
 </head>
 <body>
+  <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
   <h1>Equipamentos</h1>
-
   <div id="lista-equipamentos"></div>
-
-  <form id="form-equipamento">
-    <h2>Adicionar Novo Equipamento</h2>
-    <input type="text" id="nome" placeholder="Nome do equipamento" required />
-    <input type="text" id="descricao" placeholder="Descrição" required />
-    <input type="number" id="quantidade" placeholder="Quantidade" min="1" required />
-    <button type="submit">Salvar Equipamento</button>
-     <a href="historico-equipamento.html" class="btn-secundario">Histórico</a>
-    <div id="msg"></div>
+  <div class="centro">
+    <form id="form-equipamento">
+      <h2>Adicionar Novo Equipamento</h2>
+      <input type="text" id="nome" placeholder="Nome do equipamento" required />
+      <input type="text" id="descricao" placeholder="Descrição" required />
+      <input type="number" id="quantidade" placeholder="Quantidade" min="1" required />
+      <button type="submit">Salvar Equipamento</button>
+      <a href="historico-equipamento.html" class="btn-secundario">Histórico</a>
+      <div id="msg"></div>  
+    </div>
   <script>
     const usuario = JSON.parse(sessionStorage.getItem('usuario'));
     if (!usuario || usuario.tipoUsuario !== 'supervisor') {

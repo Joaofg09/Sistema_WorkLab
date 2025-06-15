@@ -89,6 +89,7 @@
     <a href="agenda.html" class="voltar">Visualizar Agenda</a>
     <a href="historico.html" class="voltar">Histórico de Reservas</a>
     <a href="historico-equipamento.html" class="voltar">Histórico de Equipamentos</a>
+    <a href="cadastro-usuario.html" class="voltar" id="cadastroUsuario">Cadastrar usuário</a>
     <div id="msg"></div>
   </div>
 
@@ -99,6 +100,7 @@
 
       const btnAgendarSala = document.getElementById('btnAgendarSala');
       const btnReservarEquipamento = document.getElementById('btnReservarEquipamento');
+      const btnCadastroUsuario = document.getElementById('cadastroUsuario');
 
       // Verifica se o usuário não é supervisor ou se não há usuário logado
       if (!usuarioLogado || usuarioLogado.tipoUsuario !== 'supervisor') {
@@ -107,6 +109,9 @@
         }
         if (btnReservarEquipamento) {
           btnReservarEquipamento.style.display = 'none'; // Esconde o botão Reservar Equipamento
+        }
+        if (btnCadastroUsuario){
+          btnCadastroUsuario.style.display = 'none';
         }
       }
       // Se for supervisor, os botões permanecem visíveis (padrão)

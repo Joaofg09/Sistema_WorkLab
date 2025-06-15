@@ -205,7 +205,8 @@ app.post('/usuario', (req, res) => {
     console.error('Erro ao ler usuários:', err);
   }
 
-  usuarios.push({ usuario, email, senha, setor, tipoUsuario });
+  id = uuidv4();
+  usuarios.push({ id, usuario, email, senha, setor, tipoUsuario });
 
   try {
     fs.writeFileSync(caminhoUsuarios, JSON.stringify(usuarios, null, 2));
