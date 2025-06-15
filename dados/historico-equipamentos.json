@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "destinatario": "Luan",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Mouse sem fio",
+    "inicio": "2025-06-13",
+    "fim": "2025-06-21",
+    "registrado_em": "2025-06-15T16:52:36.617Z"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Teclado",
+    "inicio": "2025-06-22",
+    "fim": "2025-06-23",
+    "registrado_em": "2025-06-15T18:27:59.550Z"
+  }
+]

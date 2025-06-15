@@ -141,5 +141,13 @@
     "equipamento": "Mouse sem fio",
     "inicio": "2025-06-13",
     "fim": "2025-06-21"
+  },
+  {
+    "destinatario": "Arnaldo",
+    "supervisor": "Joao",
+    "setor": "TI",
+    "equipamento": "Teclado",
+    "inicio": "2025-06-22",
+    "fim": "2025-06-23"
   }
 ]

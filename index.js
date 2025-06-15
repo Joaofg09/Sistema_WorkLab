@@ -15,7 +15,7 @@ const caminhoEquipamentos = path.join(__dirname, './dados/equipamentos.json');
 const caminhoUsuarios = path.join(__dirname, './dados/usuarios.json');
 const caminhoReservas = path.join(__dirname, './dados/reservas.json');
 const caminhoHistorico = path.join(__dirname, './dados/historico.json');
-const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico_equipamentos.json');
+const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico-equipamentos.json');
 
 
 // Rota de login
@@ -288,7 +288,7 @@ function reduzirEquipamento(id) {
   try {
     fs.writeFileSync(caminhoReservas, JSON.stringify(reservas, null, 2));
 
-    const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico_equipamentos.json');
+    const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico-equipamentos.json');
 
     const novaEntradaHistoricoEquipamento = {
       destinatario,
@@ -322,7 +322,7 @@ function reduzirEquipamento(id) {
 
 
 app.get('/historico-equipamentos', (req, res) => {
-  const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico_equipamentos.json');
+  const caminhoHistoricoEquipamentos = path.join(__dirname, './dados/historico-equipamentos.json');
 
   fs.readFile(caminhoHistoricoEquipamentos, 'utf8', (err, data) => {
     if (err) {

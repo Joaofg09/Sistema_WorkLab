@@ -11,6 +11,24 @@
       padding: 30px;
     }
 
+  
+     /* Estilo para o botão Voltar */
+    .btn-voltar {
+      display: inline-block; /* Para o botão não ocupar a largura total e permitir alinhamento */
+      padding: 10px 20px;
+      margin-bottom: 20px; /* Espaçamento abaixo do botão */
+      background-color: #007bff; /* Cor azul para o botão */
+      color: white;
+      text-decoration: none; /* Remove o sublinhado padrão do link */
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-voltar:hover {
+      background-color: #0056b3; /* Escurece no hover */
+    }
+
     h1 {
       color: #003668;
       text-align: center;
@@ -57,6 +75,7 @@
   </style>
 </head>
 <body>
+  <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
   <h1>Histórico de Reservas de Equipamentos</h1>
   <ul id="historico-equipamentos"></ul>
 
