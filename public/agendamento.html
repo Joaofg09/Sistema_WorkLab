@@ -6,20 +6,47 @@
   <title>Agendamento de Salas</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #be2626;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #eceff1, #376579);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
+
+    .btn-voltar {
+      display: block; /* Para o botão não ocupar a largura total e permitir alinhamento */
+      width: 95%;
+      padding: 5px 10px;
+      background-color: #0056b3; /* Cor azul para o botão */
+      color: white;
+      text-decoration: none; /* Remove o sublinhado padrão do link */
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-voltar:hover {
+      background-color: #034892; /* Escurece no hover */
+    }
+
     .box {
       background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #aaa;
-      width: 400px;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8 25px rgba(0, 0, 0, 0.15);
+      width: 420px;
+      max-width: 90%;
+      text-align: center;
     }
+    
+    h2 {
+      color: #34495e; 
+      margin-bottom: 25px; 
+      font-size: 1.8em; 
+    }
+
     input, select {
       width: 100%;
       padding: 10px;
@@ -30,6 +57,7 @@
     button {
       width: 100%;
       padding: 10px;
+      margin-bottom: 5px;
       background: #28a745;
       color: white;
       border: none;
@@ -49,7 +77,11 @@
     .voltar:hover {
       text-decoration: underline;
     }
-    
+     #msg {
+      margin-top: 15px; /* Mais espaço para a mensagem de status */
+      font-weight: bold;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -123,9 +155,8 @@
       <input type="datetime-local" id="fim" required />
       <button type="submit">Agendar</button>
       
-      <!-- Link para ir para a agenda -->
-      <a href="agenda.html" class="voltar">Ir para a Agenda</a>
-      <a href="historico.html" class="voltar">Histórico de Reservas</a>
+      <!-- botao de voltar -->
+      <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
     </form>
     <div id="msg" style="margin-top: 10px;"></div>
   </div>
