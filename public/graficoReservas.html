@@ -24,7 +24,7 @@
             border-radius: 12px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
             width: 90%;
-            max-width: 800px; /* Largura máxima para o container */
+            max-width: 800px; 
             margin: 20px auto;
             text-align: center;
         }
@@ -37,9 +37,9 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-height: 500px; /* Altura máxima para o canvas, para evitar rolagem excessiva */
-            width: 100% !important; /* Força o canvas a usar a largura total disponível */
-            height: auto !important; /* Altura automática */
+            max-height: 500px; 
+            width: 100% !important; 
+            height: auto !important; 
         }
         .btn-voltar {
             display: inline-block;
@@ -71,7 +71,6 @@
     </div>
 
     <script>
-        // Registrar o plugin ChartDataLabels globalmente
         Chart.register(ChartDataLabels);
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -80,30 +79,25 @@
             fetch('/graficoReservas') 
                 .then(response => {
                     if (!response.ok) {
-                        // Lança um erro se a resposta não for 200 OK
                         throw new Error(`Erro HTTP! Status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Dados recebidos do backend:', data); // Verifique isso no console do navegador
+                    console.log('Dados recebidos do backend:', data); 
 
-                    // Converter o objeto de dados em um array para facilitar a ordenação
                     const salasProcessadas = Object.keys(data).map(salaNome => ({
                         nome: salaNome,
                         totalReservas: data[salaNome].totalReservas
                     }));
 
-                    // Filtrar salas que não foram usadas (opcional: remova esta linha se quiser mostrar todas as salas, mesmo com 0 reservas)
                     const salasUsadas = salasProcessadas.filter(s => s.totalReservas > 0);
 
-                    // Ordenar as salas pela quantidade de reservas (do maior para o menor)
                     salasUsadas.sort((a, b) => b.totalReservas - a.totalReservas);
 
                     const labels = salasUsadas.map(s => s.nome);
                     const dadosReservas = salasUsadas.map(s => s.totalReservas);
 
-                    // Cores para as barras (você pode personalizar mais)
                     const cores = [
                         'rgba(0, 54, 104, 0.8)',   // Azul escuro
                         'rgba(255, 170, 0, 0.8)',  // Laranja
@@ -121,18 +115,18 @@
                             datasets: [{
                                 label: 'Número de Reservas',
                                 data: dadosReservas,
-                                backgroundColor: cores.slice(0, labels.length), // Usa as cores disponíveis
-                                borderColor: cores.slice(0, labels.length).map(c => c.replace('0.8', '1')), // Borda sólida
+                                backgroundColor: cores.slice(0, labels.length),
+                                borderColor: cores.slice(0, labels.length).map(c => c.replace('0.8', '1')), 
                                 borderWidth: 1
                             }]
                         },
                         options: {
                             responsive: true,
-                            maintainAspectRatio: false, // Permite que o gráfico se ajuste ao container
-                            indexAxis: 'y', // <--- BARRAS HORIZONTAIS
+                            maintainAspectRatio: false, 
+                            indexAxis: 'y', 
                             plugins: {
                                 legend: {
-                                    display: false // Não precisa de legenda para um único dataset
+                                    display: false 
                                 },
                                 title: {
                                     display: true,
@@ -140,26 +134,26 @@
                                 },
                                 datalabels: {
                                     anchor: 'end',
-                                    align: 'end', // Alinha o rótulo ao final da barra
+                                    align: 'end', 
                                     color: '#34495e',
                                     font: {
                                         weight: 'bold'
                                     },
-                                    formatter: (value) => value // Mostra o valor da barra (número de reservas)
+                                    formatter: (value) => value 
                                 }
                             },
                             scales: {
-                                x: { // Eixo X para a contagem
+                                x: { 
                                     beginAtZero: true,
                                     title: {
                                         display: true,
                                         text: 'Número de Reservas'
                                     },
                                     ticks: {
-                                        stepSize: 1 // Garante que os ticks sejam números inteiros
+                                        stepSize: 1 
                                     }
                                 },
-                                y: { // Eixo Y para os nomes das salas
+                                y: { 
                                     title: {
                                         display: true,
                                         text: 'Sala'

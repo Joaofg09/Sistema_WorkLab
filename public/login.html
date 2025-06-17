@@ -98,12 +98,12 @@
       };
 
       try {
-          const res = await fetch('/login', { // Assegure-se que '/login' é o endpoint correto
+          const res = await fetch('/login', { 
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(dados)
           });
-          const data = await res.json(); // Processa a resposta JSON do servidor
+          const data = await res.json(); 
 
           if (data.success) {
               const usuarioCompleto = {

@@ -138,7 +138,7 @@
         const mesmoSetor = usuarios.filter(u =>
           u.setor === usuario.setor && u.tipoUsuario
         );
-        // !== 'supervisor'    
+           
         mesmoSetor.forEach(u => {
           const option = document.createElement('option');
           option.value = u.usuario;

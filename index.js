@@ -262,7 +262,6 @@ function reduzirEquipamento(id) {
   try {
     reservas = JSON.parse(fs.readFileSync(caminhoReservas, 'utf8'));
   } catch {
-    // arquivo pode não existir, segue com array vazio
   }
 
   const reduziu = reduzirEquipamento(equipamentoId);
@@ -326,7 +325,6 @@ app.get('/graficoReservas', (req, res) => {
     fs.readFile(arquivo, 'utf8', (err, data) => {
         if (err) {
             console.error('Erro ao ler arquivo de histórico:', err);
-            // Se o arquivo não existe ou está vazio, retorna um objeto vazio para o frontend
             if (err.code === 'ENOENT' || data.trim() === '') {
                 return res.json({});
             }
@@ -336,7 +334,6 @@ app.get('/graficoReservas', (req, res) => {
         let historico;
         try {
             historico = JSON.parse(data);
-            // Garante que historico é um array, mesmo que o JSON esteja vazio []
             if (!Array.isArray(historico)) {
                 historico = [];
             }

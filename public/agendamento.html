@@ -16,19 +16,19 @@
     }
 
     .btn-voltar {
-      display: block; /* Para o botão não ocupar a largura total e permitir alinhamento */
+      display: block;
       width: 95%;
       padding: 5px 10px;
-      background-color: #0056b3; /* Cor azul para o botão */
+      background-color: #0056b3;
       color: white;
-      text-decoration: none; /* Remove o sublinhado padrão do link */
+      text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
       transition: background-color 0.3s ease;
     }
 
     .btn-voltar:hover {
-      background-color: #034892; /* Escurece no hover */
+      background-color: #034892; 
     }
 
     .box {
@@ -78,7 +78,7 @@
       text-decoration: underline;
     }
      #msg {
-      margin-top: 15px; /* Mais espaço para a mensagem de status */
+      margin-top: 15px;
       font-weight: bold;
       text-align: center;
     }
@@ -113,25 +113,12 @@
   <div class="box">
     <h2>Agendar Sala</h2>
     <form id="formAgendamento">
-      <!-- Campo do Usuário (somente leitura) -->
       <input type="text" id="usuario" placeholder="Seu nome (usuário)" required />
-      
-      <!-- <h1 id="mensagem"></h1>
-      <script type="module">
-        import { user } from './index.js';
-
-        document.getElementById('mensagem').textContent = `Bem-vindo, ${user.usuario}`;
-    </script> -->
-
-
-      <!-- Tipo de Usuário (somente leitura) -->
       <select id="tipoUsuario" required>
         <option value="">Tipo de usuário</option>
         <option value="funcionario">Funcionário</option>
         <option value="supervisor">Supervisor</option>
       </select>
-
-      <!-- Setor (somente leitura) -->
       <select id="setor" required>
         <option value="">Selecione seu setor</option>
         <option value="RH">RH</option>
@@ -139,8 +126,6 @@
         <option value="Financeiro">Financeiro</option>
         <option value="Marketing">Marketing</option>
       </select>
-
-      <!-- Seleção da sala -->
       <select id="sala" required>
         <option value="">Selecione uma sala</option>
         <option value="Sala de Reunião">Sala de Reunião</option>
@@ -149,13 +134,9 @@
         <option value="Sala de Jogos">Sala de Jogos</option>
         <option value="Sala Executiva">Sala Executiva</option>
       </select>
-
-      <!-- Horário de início e fim -->
       <input type="datetime-local" id="inicio" required />
       <input type="datetime-local" id="fim" required />
       <button type="submit">Agendar</button>
-      
-      <!-- botao de voltar -->
       <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
     </form>
     <div id="msg" style="margin-top: 10px;"></div>

@@ -41,17 +41,17 @@
     }
     
     .voltar {
-      display: block; /* Para o botão não ocupar a largura total e permitir alinhamento */
-      width: 100%; /* Garante que ocupe 100% da largura */
+      display: block; 
+      width: 100%; 
       padding: 12px 20px;
-      margin-bottom: 10px; /* Espaçamento abaixo do botão */
-      background-color: #003668; /* Cor azul para o botão */
+      margin-bottom: 10px; 
+      background-color: #003668; 
       color: white;
-      text-decoration: none; /* Remove o sublinhado padrão do link */
+      text-decoration: none; 
       border-radius: 6px;
       font-weight: bold;
       transition: background-color 0.3s ease;
-      text-align: center; /* Centraliza o texto dentro do botão */
+      text-align: center; 
     }
     .voltar:hover {
       background-color: #0056b3;
@@ -95,7 +95,6 @@
   </div>
 
   <script>
-    // Código para esconder/mostrar os botões deve estar aqui
     document.addEventListener('DOMContentLoaded', () => {
       const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
 
@@ -104,29 +103,23 @@
       const btnReservarEquipamento = document.getElementById('btnReservarEquipamento');
       const btnCadastroUsuario = document.getElementById('cadastroUsuario');
 
-      // Exibe o nome do usuário no título
         if (usuarioLogado && usuarioLogado.usuario) {
          welcomeMessageElement.textContent = `Bem vindo, ${usuarioLogado.usuario}!`;
         } else {
-            // Se não houver usuário logado, redireciona para a página de login
             window.location.href = '/login.html'; 
-            // Ou, se for preferível apenas mostrar uma mensagem genérica:
-            // welcomeMessageElement.textContent = `Bem vindo!`;
         }
 
-      // Verifica se o usuário não é supervisor ou se não há usuário logado
       if (!usuarioLogado || usuarioLogado.tipoUsuario !== 'supervisor') {
         if (btnAgendarSala) {
-          btnAgendarSala.style.display = 'none'; // Esconde o botão Agendar Sala
+          btnAgendarSala.style.display = 'none'; 
         }
         if (btnReservarEquipamento) {
-          btnReservarEquipamento.style.display = 'none'; // Esconde o botão Reservar Equipamento
+          btnReservarEquipamento.style.display = 'none'; 
         }
         if (btnCadastroUsuario){
           btnCadastroUsuario.style.display = 'none';
         }
       }
-      // Se for supervisor, os botões permanecem visíveis (padrão)
     });
    
   </script>
