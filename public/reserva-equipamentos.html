@@ -13,27 +13,6 @@
       margin: 0; /* Remover margem padrão do body */
     }
 
-    .btn-secundario {
-      display: block;
-      width: 95%;
-      margin-top: 10px; /* Espaçamento entre os botões */
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #003668; /* Borda com a cor principal para contraste */
-      background-color: #f8f9fa; /* Fundo mais claro */
-      color: #003668; /* Texto na cor principal */
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none; /* Remove o sublinhado padrão do link */
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-}
-
-   .btn-secundario:hover {
-      background-color: #e2e6ea; /* Escurece ligeiramente no hover */
-      color: #00264d;
-}
-
     .btn-voltar {
         position: fixed;
         top: 30px;
@@ -134,7 +113,6 @@
       <input type="text" id="descricao" placeholder="Descrição" required />
       <input type="number" id="quantidade" placeholder="Quantidade" min="1" required />
       <button type="submit">Salvar Equipamento</button>
-      <a href="historico-equipamento.html" class="btn-secundario">Histórico</a>
       <div id="msg"></div>  
     </div>
   <script>

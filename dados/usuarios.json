@@ -55,5 +55,13 @@
     "senha": "1234",
     "setor": "TI",
     "tipoUsuario": "funcionario"
+  },
+  {
+    "id": "756719c9-0287-4af2-8f1c-843d3aa19333",
+    "usuario": "diego",
+    "email": "diego@supervisor.com",
+    "senha": "789",
+    "setor": "TI",
+    "tipoUsuario": "supervisor"
   }
 ]

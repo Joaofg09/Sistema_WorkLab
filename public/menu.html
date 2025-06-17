@@ -84,7 +84,7 @@
 <body>
   <div class="login-container">
     <img src="images/logo.png" alt="WorkHub Corp Logo" />
-    <h2>Bem vindo!</h2>
+    <h2 id="welcomeMessage">Bem vindo!</h2> 
     <a href="agendamento.html" class="voltar" id="btnAgendarSala">Agendar Sala</a>
     <a href="reserva-equipamentos.html" class="voltar" id="btnReservarEquipamento">Reservar Equipamento</a>
     <a href="agenda.html" class="voltar">Visualizar Agenda</a>
@@ -99,9 +99,20 @@
     document.addEventListener('DOMContentLoaded', () => {
       const usuarioLogado = JSON.parse(sessionStorage.getItem('usuario'));
 
+      const welcomeMessageElement = document.getElementById('welcomeMessage');
       const btnAgendarSala = document.getElementById('btnAgendarSala');
       const btnReservarEquipamento = document.getElementById('btnReservarEquipamento');
       const btnCadastroUsuario = document.getElementById('cadastroUsuario');
+
+      // Exibe o nome do usuário no título
+        if (usuarioLogado && usuarioLogado.usuario) {
+         welcomeMessageElement.textContent = `Bem vindo, ${usuarioLogado.usuario}!`;
+        } else {
+            // Se não houver usuário logado, redireciona para a página de login
+            window.location.href = '/login.html'; 
+            // Ou, se for preferível apenas mostrar uma mensagem genérica:
+            // welcomeMessageElement.textContent = `Bem vindo!`;
+        }
 
       // Verifica se o usuário não é supervisor ou se não há usuário logado
       if (!usuarioLogado || usuarioLogado.tipoUsuario !== 'supervisor') {

@@ -13,7 +13,28 @@
       height: 100vh;
       margin: 0;
     }
+    .btn-secundario {
+      display: block;
+      width: 120px;
+      margin-top: 10px; 
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #003668; 
+      background-color: #f8f9fa; 
+      color: #003668; 
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none; 
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      margin-left: auto;
+      margin-right: 0;
+    }
 
+   .btn-secundario:hover {
+      background-color: #e2e6ea;
+      color: #00264d;
+    }
     table {
       background-color: #eee;
       width: 100%;
@@ -99,7 +120,8 @@
     </tbody>
   </table>
 
-  <a href="javascript:history.back()" class="voltar">← Voltar</a>
+  <a href="/menu.html" class="voltar">← Voltar</a>
+  <a href="/graficoReservas.html" class="btn-secundario">Relatório de Reservas</a>
 
   <script>
     try {
