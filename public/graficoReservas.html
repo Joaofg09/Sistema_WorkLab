@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Reservas por Sala</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #eceff1, #376579);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #34495e;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px; /* Largura máxima para o container */
+            margin: 20px auto;
+            text-align: center;
+        }
+        h1 {
+            color: #003668;
+            margin-bottom: 30px;
+        }
+        canvas {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-height: 500px; /* Altura máxima para o canvas, para evitar rolagem excessiva */
+            width: 100% !important; /* Força o canvas a usar a largura total disponível */
+            height: auto !important; /* Altura automática */
+        }
+        .btn-voltar {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .btn-voltar:hover {
+            background-color: #034892;
+        }
+        #chartError {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Número de Reservas por Sala</h1>
+        <canvas id="reservasPorSalaChart"></canvas>
+        <div id="chartError" style="display:none;"></div>
+        <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
+    </div>
+
+    <script>
+        // Registrar o plugin ChartDataLabels globalmente
+        Chart.register(ChartDataLabels);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const chartErrorMessageDiv = document.getElementById('chartError');
+
+            fetch('/graficoReservas') 
+                .then(response => {
+                    if (!response.ok) {
+                        // Lança um erro se a resposta não for 200 OK
+                        throw new Error(`Erro HTTP! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Dados recebidos do backend:', data); // Verifique isso no console do navegador
+
+                    // Converter o objeto de dados em um array para facilitar a ordenação
+                    const salasProcessadas = Object.keys(data).map(salaNome => ({
+                        nome: salaNome,
+                        totalReservas: data[salaNome].totalReservas
+                    }));
+
+                    // Filtrar salas que não foram usadas (opcional: remova esta linha se quiser mostrar todas as salas, mesmo com 0 reservas)
+                    const salasUsadas = salasProcessadas.filter(s => s.totalReservas > 0);
+
+                    // Ordenar as salas pela quantidade de reservas (do maior para o menor)
+                    salasUsadas.sort((a, b) => b.totalReservas - a.totalReservas);
+
+                    const labels = salasUsadas.map(s => s.nome);
+                    const dadosReservas = salasUsadas.map(s => s.totalReservas);
+
+                    // Cores para as barras (você pode personalizar mais)
+                    const cores = [
+                        'rgba(0, 54, 104, 0.8)',   // Azul escuro
+                        'rgba(255, 170, 0, 0.8)',  // Laranja
+                        'rgba(102, 179, 255, 0.8)',// Azul claro
+                        'rgba(204, 51, 102, 0.8)', // Rosa/Vermelho
+                        'rgba(0, 153, 102, 0.8)',  // Verde
+                        'rgba(150, 150, 150, 0.8)' // Cinza para mais salas
+                    ];
+
+                    const ctx = document.getElementById('reservasPorSalaChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Número de Reservas',
+                                data: dadosReservas,
+                                backgroundColor: cores.slice(0, labels.length), // Usa as cores disponíveis
+                                borderColor: cores.slice(0, labels.length).map(c => c.replace('0.8', '1')), // Borda sólida
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false, // Permite que o gráfico se ajuste ao container
+                            indexAxis: 'y', // <--- BARRAS HORIZONTAIS
+                            plugins: {
+                                legend: {
+                                    display: false // Não precisa de legenda para um único dataset
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Contagem de Reservas por Sala (Mais Usadas)'
+                                },
+                                datalabels: {
+                                    anchor: 'end',
+                                    align: 'end', // Alinha o rótulo ao final da barra
+                                    color: '#34495e',
+                                    font: {
+                                        weight: 'bold'
+                                    },
+                                    formatter: (value) => value // Mostra o valor da barra (número de reservas)
+                                }
+                            },
+                            scales: {
+                                x: { // Eixo X para a contagem
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Número de Reservas'
+                                    },
+                                    ticks: {
+                                        stepSize: 1 // Garante que os ticks sejam números inteiros
+                                    }
+                                },
+                                y: { // Eixo Y para os nomes das salas
+                                    title: {
+                                        display: true,
+                                        text: 'Sala'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados das salas:', error);
+                    chartErrorMessageDiv.style.display = 'block';
+                    chartErrorMessageDiv.textContent = `Erro ao carregar dados do gráfico: ${error.message}. Verifique o console do navegador.`;
+                });
+        });
+    </script>
+</body>
+</html>

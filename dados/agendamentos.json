@@ -47,5 +47,75 @@
     "sala": "3",
     "inicio": "2025-06-17T14:30",
     "fim": "2025-06-17T15:30"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "1",
+    "inicio": "2025-06-17T12:40",
+    "fim": "2025-06-18T14:20"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "4",
+    "inicio": "2025-06-19T15:40",
+    "fim": "2025-06-18T16:10"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala Executiva",
+    "inicio": "2025-06-18T13:10",
+    "fim": "2025-06-18T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala de Reunião",
+    "inicio": "2025-06-20T13:10",
+    "fim": "2025-06-21T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala de Vídeo",
+    "inicio": "2025-06-27T13:10",
+    "fim": "2025-06-27T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala de Vídeo",
+    "inicio": "2025-06-29T13:10",
+    "fim": "2025-06-30T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala Executiva",
+    "inicio": "2025-06-20T13:10",
+    "fim": "2025-06-21T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala de Vídeo",
+    "inicio": "2025-06-24T13:10",
+    "fim": "2025-06-25T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala de Jogos",
+    "inicio": "2025-06-24T13:10",
+    "fim": "2025-06-25T21:11"
+  },
+  {
+    "usuario": "Joao",
+    "setor": "TI",
+    "sala": "Sala de Vídeo",
+    "inicio": "2025-06-26T13:10",
+    "fim": "2025-06-26T21:11"
   }
 ]

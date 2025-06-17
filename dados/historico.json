@@ -2,97 +2,33 @@
   {
     "usuario": "Joao",
     "setor": "TI",
-    "sala": "Sala 101",
-    "inicio": "2025-06-15T09:00:00",
-    "fim": "2025-06-15T10:00:00",
-    "registrado_em": "2025-06-15T11:23:45.678Z"
+    "sala": "Sala Executiva",
+    "inicio": "2025-06-18T13:10",
+    "fim": "2025-06-18T21:11",
+    "registrado_em": "2025-06-17T00:11:15.916Z"
   },
   {
     "usuario": "Joao",
     "setor": "TI",
-    "sala": "304",
-    "inicio": "2025-06-15T12:50",
-    "fim": "2025-06-15T15:00",
-    "registrado_em": "2025-06-15T15:50:47.246Z"
+    "sala": "Sala de Reunião",
+    "inicio": "2025-06-20T13:10",
+    "fim": "2025-06-21T21:11",
+    "registrado_em": "2025-06-17T00:41:40.759Z"
   },
   {
     "usuario": "Joao",
     "setor": "TI",
-    "sala": "204",
-    "inicio": "2025-07-26T16:42",
-    "fim": "2025-07-26T18:42",
-    "registrado_em": "2025-06-15T19:42:24.169Z"
+    "sala": "Sala de Vídeo",
+    "inicio": "2025-06-27T13:10",
+    "fim": "2025-06-27T21:11",
+    "registrado_em": "2025-06-17T00:41:56.436Z"
   },
   {
     "usuario": "Joao",
     "setor": "TI",
-    "sala": "1",
-    "inicio": "2025-06-25T18:22",
-    "fim": "2025-06-25T22:22",
-    "registrado_em": "2025-06-15T21:23:02.183Z"
-  },
-  {
-    "usuario": "Joao",
-    "setor": "TI",
-    "sala": "1",
-    "inicio": "2025-06-27T18:25",
-    "fim": "2025-06-27T21:25",
-    "registrado_em": "2025-06-15T21:25:13.268Z"
-  },
-  {
-    "usuario": "Joao",
-    "setor": "TI",
-    "sala": "1",
-    "inicio": "2025-06-17T21:00",
-    "fim": "2025-06-17T23:00",
-    "registrado_em": "2025-06-15T21:28:45.267Z"
-  },
-  {
-    "usuario": "Joao",
-    "setor": "TI",
-    "sala": "2",
-    "inicio": "2025-06-18T22:00",
-    "fim": "2025-06-18T23:00",
-    "registrado_em": "2025-06-15T21:29:06.143Z"
-  },
-  {
-    "usuario": "Jana",
-    "setor": "Marketing",
-    "sala": "2",
-    "inicio": "2025-06-16T20:30",
-    "fim": "2025-06-16T22:00",
-    "registrado_em": "2025-06-15T21:30:37.681Z"
-  },
-  {
-    "usuario": "Jana",
-    "setor": "Marketing",
-    "sala": "2",
-    "inicio": "2025-06-19T20:30",
-    "fim": "2025-06-19T22:00",
-    "registrado_em": "2025-06-15T21:30:46.927Z"
-  },
-  {
-    "usuario": "Jana",
-    "setor": "Marketing",
-    "sala": "3",
-    "inicio": "2025-06-20T21:00",
-    "fim": "2025-06-20T22:00",
-    "registrado_em": "2025-06-15T21:32:25.205Z"
-  },
-  {
-    "usuario": "Daniel",
-    "setor": "Financeiro",
-    "sala": "3",
-    "inicio": "2025-06-16T20:30",
-    "fim": "2025-06-16T21:30",
-    "registrado_em": "2025-06-15T21:33:24.831Z"
-  },
-  {
-    "usuario": "Daniel",
-    "setor": "Financeiro",
-    "sala": "3",
-    "inicio": "2025-06-17T02:30",
-    "fim": "2025-06-17T03:30",
-    "registrado_em": "2025-06-15T21:33:50.585Z"
+    "sala": "Sala de Vídeo",
+    "inicio": "2025-06-26T13:10",
+    "fim": "2025-06-26T21:11",
+    "registrado_em": "2025-06-17T01:02:59.210Z"
   }
 ]

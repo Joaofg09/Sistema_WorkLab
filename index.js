@@ -320,6 +320,62 @@ app.get('/historico-equipamentos', (req, res) => {
   });
 });
 
+app.get('/graficoReservas', (req, res) => {
+    const arquivo = path.join(__dirname, 'dados', 'historico.json');
+
+    fs.readFile(arquivo, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Erro ao ler arquivo de histórico:', err);
+            // Se o arquivo não existe ou está vazio, retorna um objeto vazio para o frontend
+            if (err.code === 'ENOENT' || data.trim() === '') {
+                return res.json({});
+            }
+            return res.status(500).json({ erro: 'Erro ao ler arquivo' });
+        }
+
+        let historico;
+        try {
+            historico = JSON.parse(data);
+            // Garante que historico é um array, mesmo que o JSON esteja vazio []
+            if (!Array.isArray(historico)) {
+                historico = [];
+            }
+        } catch (parseErr) {
+            console.error('Erro ao parsear historico.json:', parseErr);
+            return res.status(500).json({ erro: 'Arquivo histórico mal formatado.' });
+        }
+
+        const resumo = {};
+
+        
+        const salasEsperadas = [
+            "Sala de Reunião",
+            "Sala de Apresentação",
+            "Sala de Vídeo", 
+            "Sala de Jogos",
+            "Sala Executiva"
+        ];
+
+        // Inicializa todas as salas esperadas com 0 reservas
+        salasEsperadas.forEach(sala => {
+            resumo[sala] = { totalReservas: 0 }; 
+        });
+
+        historico.forEach(registro => {
+            const salaNome = registro.sala;
+
+            // Incrementa a contagem de reservas para a sala se ela for válida e estiver na lista
+            if (typeof salaNome === 'string' && salasEsperadas.includes(salaNome)) {
+                resumo[salaNome].totalReservas += 1;
+            } else {
+                console.warn(`Atenção: Sala "${salaNome}" encontrada no histórico, mas não está na lista de salas esperadas. Registro:`, registro);
+            }
+        });
+
+        res.json(resumo);
+    });
+});
+
 
 // Inicializa o servidor
 app.listen(PORT, () => {
